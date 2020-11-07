@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;600&display=swap" rel="stylesheet">
+    <title>toDoList</title>
+    <style>
+        
+
+
+        .header{
+            border: 2px solid grey;
+            border-top-right-radius: 20px;
+            border-top-left-radius: 20px;
+            background-color: burlywood;
+        }
+        body{
+            margin-left: 28%;
+            margin-right: 28%;
+            background-image: url(toDolist.jpg);
+        }
+        h1{
+            text-align: center;
+            text-transform: uppercase;
+            color: blue;
+        }
+        .add-box{
+            padding: 0px 30%;
+        }
+        .btn{
+            color: rgb(83, 83, 83);
+            border-radius: 100%;
+        }
+        .inputBox{
+            border: 2px solid green;
+        }
+        .todo{
+            border: 2px solid pink;
+            border-top-right-radius: 30px;
+            border-top-left-radius: 30px;
+            padding-left: 30%;
+            background-color: rgb(238, 138, 138);
+            background-color: white;
+        }
+
+        .test-list{
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .test-list li{
+            background: #ffffff;
+            margin-bottom: 20px;
+            padding: 20px 10px;
+            width: 250px;
+            text-transform: uppercase;
+            font-family: sans-serif;
+            border-left: 5px solid pink;
+            color:#0d0af9;
+            transform: 0.5s;
+            border-radius: 0 5px 5px 0;
+                }
+        .test-list li:hover{
+           
+            background-color: rgb(236, 255, 224);
+            font-weight: bolder;
+        }
+        @media screen and (max-width: 768px) {
+                body {
+                    background-image: url(toDolist.jpg);
+                     margin-left: 10%;
+            margin-right: 10%;
+                }
+               h1{
+                   color:white;
+                   text-align:center;
+               }
+            .header{
+            border: 2px solid grey;
+            border-top-right-radius: 20px;
+            border-top-left-radius: 20px;
+            background-color: red;
+                 }
+                .test-list{
+                list-style-type: none;
+                padding-left: 0;
+            }
+            .test-list li{
+                background: #ffffff;
+                margin-bottom: 20px;
+                padding: 20px 10px;
+                width: 100px;
+                text-transform: uppercase;
+                font-family: sans-serif;
+                border-left: 5px solid pink;
+                color:#0d0af9;
+                transform: 0.5s;
+                border-radius: 0 5px 5px 0;
+                    }
+            .test-list li:hover{
+            
+                background-color: rgb(236, 255, 224);
+                font-weight: bolder;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+      <h1>To Do List</h1>
+      <div class="add-box text-light " id="addBox">
+                        <input class="inputBox" type="text" id="input" placeholder="Say Something....." autofocus="">
+                        <button id="addBtn" class="btn btn-add" onclick="addList()"><i class="fas fa-plus"></i></i></button>
+                    </div>
+      <div class="todo">
+                  
+            <ul class="test-list" id="list">
+                
+            <li class="list-item" id="list10">
+                <span id="listText10">Exercise</span>
+                <button class="btn edit-btn" onclick="editList(10)"><i class="fas fa-edit"></i></button>
+                <button class="btn del-btn" onclick="deleteList(10)"><i class="fas fa-trash-alt"></i></button>
+            </li>
+            
+            <li class="list-item" id="list11">
+                <span id="listText11">Breakfast</span>
+                <button class="btn edit-btn" onclick="editList(11)"><i class="fas fa-edit"></i></button>
+                <button class="btn del-btn" onclick="deleteList(11)"><i class="fas fa-trash-alt"></i></button>
+            </li>
+            
+            <li class="list-item" id="list12">
+                <span id="listText12">Go to Office</span>
+                <button class="btn edit-btn" onclick="editList(12)"><i class="fas fa-edit"></i></button>
+                <button class="btn del-btn" onclick="deleteList(12)"><i class="fas fa-trash-alt"></i></button>
+            </li>
+            </ul>
+            
+        </div>
+    </div>
+    <script>
+        let minTextLength=3;
+        let i=4;
+        let input=document.getElementById("input");
+        let list=document.getElementById("list");
+
+        function textFilter(x){
+            if(x){
+
+                if(x.length>=minTextLength){
+
+                    return x;
+
+                }else{
+                    alert("Mini text length is 3")
+                    return false;
+                }
+            }else{
+                alert("input text empty")
+                return false;
+            }
+        }
+
+        function showList(text){
+            list.innerHTML +=`
+            <li class="list-item" id="list${i}">
+                <span id="listText${i}">${text}</span>
+                <button class="btn edit-btn" onclick="editList(${i})"><i class="fas fa-edit"></i></button>
+                <button class="btn del-btn" onclick="deleteList(${i})"><i class="fas fa-trash-alt"></i></button>
+            </li>
+            `;
+            i++;
+        }
+
+        function deleteList(listId){
+            let current=document.getElementById(`list${listId}`);
+            let currentText=document.getElementById(`listText${listId}`).innerHTML;
+            let deleteConfirm=confirm(`Are You Sure To Delete List'${currentText}'`);
+            if(deleteConfirm){
+                
+                list.removeChild(current);
+            }else{
+                console.log("Delete Cancel")
+            }
+        }
+
+        function editList(listId){
+            let current=document.getElementById(`listText${listId}`);
+            let newText=prompt(`Say Something`,current.innerHTML);
+            if(textFilter(newText)){
+                current.innerHTML=newText;
+            }
+            
+        }
+
+        function addList(){
+            let inputText=textFilter(input.value);
+            
+            if(inputText){
+                showList(inputText);
+                input.value="";
+            }
+        }
+    </script>
+</body>
+</html>
